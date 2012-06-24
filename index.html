@@ -7,8 +7,8 @@
    <title>Mmmm... Google Guava</title>
 
    <meta name="description"
-         content="An easy to use CSS 3D slideshow tool for quickly creating good looking HTML presentations.">
-   <meta name="author" content="Hakim El Hattab">
+         content="A quick intro into Google's Guava library, best described as the ultimate Java-Painkiller ;-)">
+   <meta name="author" content="Konrad Malawski">
 
    <meta name="apple-mobile-web-app-capable" content="yes"/>
    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
@@ -27,193 +27,248 @@
 <body>
 
 <div class="reveal">
-<div class="state-background"></div>
+   <div class="state-background"></div>
 
-<div class="slides">
-<section>
-   <h1>
-      Mmmm... <br/> Google Guava
-      <img src="assets/images/guava.png" alt="guava"/>
-   </h1>
-   <script>
-      // Delicously hacky. Look away.
-      if (navigator.userAgent.match(/(iPhone|iPad|iPod|Android)/i)) document.write('<p style="color: rgba(0,0,0,0.3); text-shadow: none;">(' + 'Tap to navigate' + ')</p>');
-   </script>
-</section>
+   <div class="slides">
+      <section>
+         <h1>
+            Mmmm... <br/> Google Guava
+            <img src="assets/images/guava.png" alt="guava"/>
+         </h1>
+         <script>
+            // Delicously hacky. Look away.
+            if (navigator.userAgent.match(/(iPhone|iPad|iPod|Android)/i)) document.write('<p style="color: rgba(0,0,0,0.3); text-shadow: none;">(' + 'Tap to navigate' + ')</p>');
+         </script>
+      </section>
 
-<section>
-   <h2>About me</h2>
+      <section>
+         <h2>About me</h2>
 
-   <p>
-      <img src="./assets/images/about_me.png" alt="about me" style="background: white;"/>
-   </p>
-</section>
+         <p>
+            <img src="./assets/images/about_me.png" alt="about me" style="background: white;"/>
+         </p>
+      </section>
 
-<section>
-   <h2>Guava is...</h2>
+      <section>
+         <h2>Guava is...</h2>
 
-   <ul>
-      <li class="fragment">a set of utility classes and methods</li>
-      <li class="fragment">basically... a <em>painkiller for Java</em></li>
-   </ul>
-</section>
+         <ul>
+            <li class="fragment">a set of <strong>utility</strong> classes and methods</li>
+            <li class="fragment">some quite neat <strong>collection</strong> implementations (AKA. google-collections)
+            </li>
+            <li class="fragment">comparable to <em>Apache Commons</em></li>
+            <li class="fragment">basically... a <em><strong>painkiller</strong></em> and <em><strong>extension</strong></em> for Java (stdlib)</li>
+         </ul>
+      </section>
 
-<section>
-   <h2>GTUG -&gt; GDG</h2>
+      <section>
+         <h2>
+            <br>
+            <br>
+            <br>
+            Let's <b>go</b>!
+         </h2>
+      </section>
 
-   Each <br>
+      <section>
+         <section>
+            <h2>Transform: GTUG -&gt; GDG</h2>
 
-   <img src="assets/images/gtug_krakow.png" alt="kraków gtug"> Member
-   <br>
-   <br>
+            Each <br>
 
-   is now a:
+            <img src="assets/images/gtug_krakow.png" alt="kraków gtug"> Member
+            <br>
+            <br>
 
-   <br>
+            is now a:
 
-   <img src="assets/images/gdg_krakow_lq.png" alt="GDG Kraków"> Member
-</section>
+            <br>
 
-<!-- Example of nested vertical slides -->
-<section>
-   <section>
-      <h2>Vertical Slides</h2>
+            <img src="assets/images/gdg_krakow_lq.png" alt="GDG Kraków"> Member
+         </section>
+         <section>
+            <h2>Vanilla Java</h2>
 
-      <p>
-         Slides can be nested inside of other slides,<br/>
-         try pressing <a href="#/2/1">down</a>.
-      </p>
-      <a href="#/2/1" class="image">
-         <img width="178" height="238" src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png">
-      </a>
-   </section>
-   <section>
-      <h2>Basement Level 1</h2>
+               <pre><code contenteditable class="java">
+List&lt;GTUGMember&gt; gtugMembers = new ArrayList &lt;GTUGMember&gt;();
+gtugMembers.add(GTUG.member("Konrad"));
+gtugMembers.add(GTUG.member("Łukasz"));
 
-      <p>Press down or up to navigate.</p>
-   </section>
-   <section>
-      <h2>Basement Level 2</h2>
+List&lt;GDGMember&gt; gdgMembers = new ArrayList &lt;&gt;();
 
-      <p>Cornify</p>
-      <a class="test" href="http://cornify.com">
-         <img width="280" height="326" src="https://s3.amazonaws.com/hakim-static/reveal-js/cornify.gif">
-      </a>
-   </section>
-   <section>
-      <h2>Basement Level 3</h2>
+for(GTUGMember member: gtugMembers)
+gdgMembers.add(GDGMember.from(member))
 
-      <p>That's it, time to go back up.</p>
-      <a href="#/2" class="image">
-         <img width="178" height="238" src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png"
-              style="-webkit-transform: rotate(180deg);">
-      </a>
-   </section>
-</section>
+// done!
 
-<section>
-   <section data-state="alert">
-      <h2>Global State</h2>
+               </code></pre>
+         </section>
 
-      <p>
-         Set <code>data-state="something"</code> on a slide and <code>"something"</code>
-         will be added as a class to the document element when the slide is open. This let's you
-         apply broader style changes, like switching the background.
-      </p>
-      <a href="#/7/1" class="image">
-         <img width="178" height="238" src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png">
-      </a>
-   </section>
-   <section data-state="blackout">
-      <h2>"blackout"</h2>
-      <a href="#/7/2" class="image">
-         <img width="178" height="238" src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png">
-      </a>
-   </section>
-   <section data-state="soothe">
-      <h2>"soothe"</h2>
-      <a href="#/7/0" class="image">
-         <img width="178" height="238" src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png"
-              style="-webkit-transform: rotate(180deg);">
-      </a>
-   </section>
-</section>
+         <section>
+            <h2>Transform</h2>
 
-<section>
-   <h2>Pretty Code</h2>
-        <pre><code contenteditable>
-           var supports3DTransforms = document.body.style['webkitPerspective'] !== undefined ||
-           document.body.style['MozPerspective'] !== undefined ||
-           document.body.style['perspective'] !== undefined;
+         <pre><code contenteditable class="java">import com.google.common.collect.*;
 
-           function linkify( selector ) {
-           if( supports3DTransforms ) {
+            List&lt;GTUGMember&gt; gtugMembers = Lists.newArrayList(GTUG.member("Konrad"), GTUG.member("Łukasz"));
 
-           var nodes = document.querySelectorAll( selector );
+            Function&lt;GTUGMember, GDGMember&gt; toGDGMember = new Function&lt;GTUGMember, GDGMember&gt;() {
+            @Override
+            public Object apply(@Nullable String input) {
+            return input.toUpperCase();
+            }
+            };
 
-           for( var i = 0, len = nodes.length; i < len; i++ ) {
-           var node = nodes[i];
+            List&lt;GDGMember&gt; gdgMembers = Lists.transform(gtugMembers, toGDGMember);
 
-           if( !node.className || !node.className.match( /roll/g ) ) {
-           node.className += ' roll';
-           node.innerHTML = '<span data-title="'+ node.text +'">' + node.innerHTML + '</span>';
-           }
-           };
-           }
-           }
+         </code></pre>
+         </section>
 
-           linkify( 'a' );
-        </code></pre>
-   <p>Courtesy of <a href="http://softwaremaniacs.org/soft/highlight/en/description/">highlight.js</a>.</p>
-</section>
+         <section>
+            <h2>Transform</h2>
 
-<section>
-   <h2>I want moar!</h2>
-   Presentations:
-   <ul>
-      <li>
-         <a href="http://tomaszdziurko.pl/tag/guava/">Tomek Dziurko about Guava</a>
-      </li>
-   </ul>
+            A small trick:
 
-   Videos:
-   <ul>
-      <li>
-         <a href="http://www.youtube.com/watch?v=0XUBugyOhh8">
-            TravelChannel about Guavas from Hawaii
-         </a>
-      </li>
-   </ul>
-</section>
+               <pre><code contenteditable class="java">import com.google.common.collect.*;
 
-<section>
-   <h1>ありがとう！</h1>
-   <h2>Dzięki!</h2>
+                  class DGDMember {
+                    public static Function&lt;GTUGMember, GDGMember&gt; fromGTUGMember() { /* ... */ }
+                  }
 
-   <div class="inverted right">
-      slides are googlable <br/>
-      or @ <a href="http://www.blog.project13.pl">blog.project13.pl</a>
+                  List&lt;GTUGMember&gt; gtugMembers = Lists.newArrayList(GTUG.member("Konrad"), GTUG.member("Łukasz"));
+
+                  List&lt;GDGMember&gt; gdgMembers = Lists.transform(gtugMembers, GDGMember.fromGTUGMember());
+
+               </code></pre>
+         </section>
+
+         <section>
+            <h2 style="font-size: 1.5em">"This would be 1 line in Scala"</h2>
+            <pre><code contenteditable class="scala">
+               case class GTUGMember(val name: String)
+               case class GDGMember(val name: String)
+
+               val gtugMembers = List(GTUGMember("Konrad"))
+
+               // map all members to gdg Members
+               val gdgMembers = members map { GDGMember(_.name) }
+            </code></pre>
+
+            So, yes - we're aware such things are Simple in other languages, but that's where Guava tries to help.
+         </section>
+      </section>
+
+      <section>
+         <section>
+            <h2>Immutability</h2>
+
+            Is <strong>awesome</strong> because:
+            <ul>
+               <li>
+                  free <strong>thread safety</strong>
+               </li>
+               <li>
+                  No more "will someone change this collection?" panic
+               </li>
+               <li>
+                  sometimes -&gt; <em>performance</em>
+               </li>
+            </ul>
+         </section>
+         <section>
+            <h2>Vanilla JDK - constant set</h2>
+            <pre><code contenteditable class="java">
+               public static final Set&lt;Integer&gt; NUMS = Collections.unmodifiableSet(
+                 new LinkedHashSet&lt;&gt;(
+                   Arrays.asList(1, 2, 3, 4, 5, 6)
+                 )
+               );
+            </code></pre>
+
+            Problems here?
+
+            <ul>
+               <li></li>
+            </ul>
+         </section>
+
+         <section>
+            <h2>ImmutableSet</h2>
+
+            <pre><code class="java" contenteditable>
+              public static final Set&lt;Integer&gt; NUMS = ImmutableSet.of(1, 2, 3, 4, 5);
+            </code></pre>
+         </section>
+      </section>
+
+      <section>
+         <h2>I want moar!</h2>
+
+         <div>
+            Sources: <br>
+            <ul>
+               <li>
+                  <a href="http://code.google.com/p/guava-libraries/">
+                     http://code.google.com/p/guava-libraries/
+                  </a>
+               </li>
+            </ul>
+         </div>
+         <br>
+
+         <div>Presentations: <br>
+            <ul>
+               <li>
+                  <a href="http://tomaszdziurko.pl/tag/guava/">Tomek Dziurko about Guava</a>
+               </li>
+            </ul>
+         </div>
+
+         <br>
+
+         <div>
+            Videos: <br>
+            <ul>
+               <li>
+                  <a href="http://www.youtube.com/watch?v=0XUBugyOhh8">
+                     TravelChannel about Guavas from Hawaii
+                  </a>
+               </li>
+               <li>
+                  <a href="http://www.youtube.com/watch?v=ZeO_J2OcHYM">
+                     Google Collections (Kevin Bourrillion &amp; Joshua Bloch)
+                     <img src="assets/images/plus.png" alt="plus"/>
+                  </a>
+               </li>
+            </ul>
+         </div>
+      </section>
+
+      <section>
+         <h1>ありがとう！</h1>
+
+         <h2>Dzięki!</h2>
+
+         <div class="inverted right">
+            slides are googlable <br/>
+            or @ <a href="http://www.blog.project13.pl">blog.project13.pl</a>
+         </div>
+      </section>
    </div>
-</section>
-</div>
 
 
-
-<!-- EOP -->
-
+   <!-- EOP -->
 
 
+   <!-- The navigational controls UI -->
+   <aside class="controls">
+      <a class="left" href="#">&#x25C4;</a>
+      <a class="right" href="#">&#x25BA;</a>
+      <a class="up" href="#">&#x25B2;</a>
+      <a class="down" href="#">&#x25BC;</a>
+   </aside>
 
-<!-- The navigational controls UI -->
-<aside class="controls">
-   <a class="left" href="#">&#x25C4;</a>
-   <a class="right" href="#">&#x25BA;</a>
-   <a class="up" href="#">&#x25B2;</a>
-   <a class="down" href="#">&#x25BC;</a>
-</aside>
-
-<!-- Displays presentation progress, max value changes via JS to reflect # of slides -->
-<div class="progress"><span></span></div>
+   <!-- Displays presentation progress, max value changes via JS to reflect # of slides -->
+   <div class="progress"><span></span></div>
 
 </div>
 

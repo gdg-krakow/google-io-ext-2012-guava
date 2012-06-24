@@ -125,6 +125,7 @@ body {
 .reveal strong,
 .reveal b {
    font-weight: bold;
+   color: #32cd32;
 }
 
 .reveal em,
