@@ -109,16 +109,16 @@ gdgMembers.add(GDGMember.from(member))
 
          <pre><code contenteditable class="java">import com.google.common.collect.*;
 
-            List&lt;GTUGMember&gt; gtugMembers = Lists.newArrayList(GTUG.member("Konrad"), GTUG.member("Łukasz"));
+List&lt;GTUGMember&gt; gtugMembers = Lists.newArrayList(GTUG.member("Konrad"), GTUG.member("Łukasz"));
 
-            Function&lt;GTUGMember, GDGMember&gt; toGDGMember = new Function&lt;GTUGMember, GDGMember&gt;() {
-            @Override
-            public Object apply(@Nullable String input) {
-            return input.toUpperCase();
-            }
-            };
+Function&lt;GTUGMember, GDGMember&gt; toGDGMember = new Function&lt;GTUGMember, GDGMember&gt;() {
+  @Override
+  public Object apply(@Nullable String input) {
+    return input.toUpperCase();
+  }
+};
 
-            List&lt;GDGMember&gt; gdgMembers = Lists.transform(gtugMembers, toGDGMember);
+List&lt;GDGMember&gt; gdgMembers = Lists.transform(gtugMembers, toGDGMember);
 
          </code></pre>
          </section>
@@ -130,30 +130,39 @@ gdgMembers.add(GDGMember.from(member))
 
                <pre><code contenteditable class="java">import com.google.common.collect.*;
 
-                  class DGDMember {
-                    public static Function&lt;GTUGMember, GDGMember&gt; fromGTUGMember() { /* ... */ }
-                  }
+class DGDMember {
+  public static Function&lt;GTUGMember, GDGMember&gt; fromGTUGMember() { /* ... */ }
+}
 
-                  List&lt;GTUGMember&gt; gtugMembers = Lists.newArrayList(GTUG.member("Konrad"), GTUG.member("Łukasz"));
+List&lt;GTUGMember&gt; gtugMembers = Lists.newArrayList(GTUG.member("Konrad"), GTUG.member("Łukasz"));
 
-                  List&lt;GDGMember&gt; gdgMembers = Lists.transform(gtugMembers, GDGMember.fromGTUGMember());
+List&lt;GDGMember&gt; gdgMembers = Lists.transform(gtugMembers, GDGMember.fromGTUGMember());
 
                </code></pre>
          </section>
 
          <section>
-            <h2 style="font-size: 1.5em">"This would be 1 line in Scala"</h2>
+            <h2 style="font-size: 1.5em">"This would be 1 line in _____"</h2>
+
+            Scala for example:
+
             <pre><code contenteditable class="scala">
-               case class GTUGMember(val name: String)
-               case class GDGMember(val name: String)
+case class GTUGMember(val name: String)
+case class GDGMember(val name: String)
 
-               val gtugMembers = List(GTUGMember("Konrad"))
+val gtugMembers = List(GTUGMember("Konrad"))
 
-               // map all members to gdg Members
-               val gdgMembers = members map { GDGMember(_.name) }
+// map all members to gdg Members
+val gdgMembers = members map { GDGMember(_.name) }
             </code></pre>
 
             So, yes - we're aware such things are Simple in other languages, but that's where Guava tries to help.
+
+            <br>
+            <br>
+            <div class="fragment">
+               And anyway... <b>LISP</b> had those for years ;-)
+            </div>
          </section>
       </section>
 
@@ -189,25 +198,24 @@ gdgMembers.add(GDGMember.from(member))
             Composing functions:
 
             <pre><code class="java">
-               Function &lt;Integer, Integer&gt; doubler = new Function &lt;Integer, Integer&gt;() {
-                           @Override
-                           public Integer apply(@Nullable Integer input) {
-                               return input * 2;
-                           }
-                       };
+Function &lt;Integer, Integer&gt; doubler = new Function &lt;Integer, Integer&gt;() {
+  @Override
+  public Integer apply(@Nullable Integer input) {
+    return input * 2;
+  }
+};
 
-                       Function&lt;Integer, Integer&gt; halfer = new Function&lt;Integer, Integer&gt;() {
-                           @Override
-                           public Integer apply(@Nullable Integer input) {
-                               return input / 2;
-                           }
-                       };
+Function&lt;Integer, Integer&gt; halfer = new Function&lt;Integer, Integer&gt;() {
+  @Override
+  public Integer apply(@Nullable Integer input) {
+    return input / 2;
+  }
+};
 
-                       Function&lt;Integer, Integer&gt; identity = Functions.compose(doubler, halfer);
+Function&lt;Integer, Integer&gt; identity = Functions.compose(doubler, halfer);
 
-                       Integer two = identity.apply(2);
-                       assertThat(two).isEqualTo(2);
-            </code></pre>
+Integer two = identity.apply(2);
+assertThat(two).isEqualTo(2);</code></pre>
 
             <span class="code fragment">doubler(halfer(x))</span>
          </section>
@@ -234,17 +242,25 @@ gdgMembers.add(GDGMember.from(member))
 
             <div class="">
                Ugly but <span class="code">null</span>-safe:
-               <pre><code class="java">public String fullName(String firstName, Optional&lt;String&gt; maybeMiddleName, String lastName) {
+               <pre><code class="java">
+public String fullName(String firstName,
+                       Optional&lt;String&gt; maybeMiddleName,
+                       String lastName) {
+
   String middleName = "";
-  if(maybeMiddleName.isPresent) { middleName = maybeMiddleName.get(); }
+  if(maybeMiddleName.isPresent()) {middleName = maybeMiddleName.get();}
   return firstName + " " + middleName + " " + lastName;
 }</code></pre>
             </div>
 
             <div class="fragment">
                Nicer:
-               <pre><code class="java">public String fullName(String firstName, Optional&lt;String&gt; maybeMiddleName, String lastName) {
-return firstName + " " + maybeMiddleName.or("") + " " + lastName;
+               <pre><code class="java">
+public String fullName(String firstName,
+                       Optional&lt;String&gt; maybeMiddleName,
+                       String lastName) {
+
+  return firstName + " " + maybeMiddleName.or("") + " " + lastName;
 }
 </code></pre>
             </div>
@@ -252,6 +268,47 @@ return firstName + " " + maybeMiddleName.or("") + " " + lastName;
             <blockquote class="fragment">
                Haven't seen a null-pointer in my code since a few months now! -- random Optional user
             </blockquote>
+
+         </section>
+
+         <section>
+            <h2>Predicate</h2>
+            Quite similar to Function but does <em>NOT</em> extend it.
+
+            <pre><code class="java">Predicate&lt;User&gt; onlyAwesome = new Predicate&lt;User&gt;() {
+  @Override
+  public boolean apply(@Nullable User in) {
+    return Optional.fromNullable(in).or(User.NOT_AWESOME).isAwesome();
+  }
+}</code></pre>
+
+            <div class="fragment">
+               Let's use it on a collection:
+
+               <pre><code class="java">List&lt;User&gt; users = getMixedUsers();
+// find all awesome users
+List&lt;User&gt; onlyAwesomeUsers = Iterables.filter(users, onlyAwesome);
+</code></pre>
+
+               <pre class="fragment"><code class="java">// find one (first) awesome user
+User awesomeUser = Iterables.find(users, onlyAwesome);
+// or better:
+Optional&lt;User&gt; awesomeOrAbsent = Iterables.tryFind(users, onlyAwesome);</code></pre>
+            </div>
+         </section>
+
+         <section>
+            <h2>Iterables.*</h2>
+            Iterables has a lot useful static methods:
+
+            <ul>
+               <li class="code fragment">&lt;T&gt; T get(Iterable&lt;? extends T&gt; iterable, int position, T defaultValue) </li>
+               <li class="code fragment">&lt;T&gt; Iterable &lt;List&lt;T&gt;&gt; partition(Iterable&lt;T&gt; iterable, int size) </li>
+               <li class="code fragment">&lt;T&gt; boolean all(Iterable&lt;T&gt; iterable, Predicate&lt;? super T&gt;  predicate) </li>
+               <li class="code fragment">&lt;T&gt; boolean any(Iterable&lt;T&gt; iterable, Predicate&lt;? super T&gt;  predicate) </li>
+               <li class="code fragment">&lt;T&gt; Iterable&lt;T&gt; cycle(&lt;T&gt;... elements)</li>
+               <li class="fragment">and a lot more!</li>
+            </ul>
 
          </section>
 
@@ -383,6 +440,117 @@ nicknameOf.apply("Konrad");</code></pre>
             </ul>
             </small>
          </section>
+      </section>
+
+      <section>
+         <section>
+            <h2>More Collection utils</h2>
+
+            A pair of:
+            <ul>
+               <li>Joiner</li>
+               <li>Splitter</li>
+            </ul>
+         </section>
+
+         <section>
+            <h2>Joiner</h2>
+
+         </section>
+      </section>
+
+      <section>
+         <section>
+            <h2>Streams &amp; Files</h2>
+
+            IO Operations are a bit bloated in java (6):
+
+            <pre class="fragment"><code class="java"> try {
+  FileWriter fstream = new FileWriter("out.txt");
+  BufferedWriter out = new BufferedWriter(fstream);
+  out.write("Hello Java");
+  out.close();
+} catch (Exception ex) {
+  logger.error("Unable to hello world! AAAA!", ex);
+} finally {
+  try {
+    if(out != null) out.close();
+  } catch(Exception ex) {
+    logger.error("Unable to close writer! AAAA!!", ex);
+  }
+}
+</code></pre>
+
+            <div class="fragment">
+               It's gotten better with <b>Java 7</b>'s try-with-resources:
+
+               <pre><code class="java">try(BufferedWriter out = new BufferedWriter(new FileWriter("out.txt"))) {
+  out.write("Hello Java 7!");
+}</code></pre>
+            </div>
+         </section>
+
+         <section>
+            <h2>Files</h2>
+            Guava on the other hand contains such nice methods as:
+
+            <pre><code class="java">Files.write("Hello Guava!", new File(""), Charsets.UTF_8);
+
+Files.append("Hello Guava!", new File(""), Charsets.UTF_8);
+            </code></pre>
+
+         <div class="fragment">
+            We also get some File operation utils (which are kind-of replaced by Java 7's <span class="code"><a
+               href="http://www.java7developer.com/blog/?p=334">Paths</a></span> nowadays):
+
+            <pre><code class="java">Files.move(fromFile, toFile);
+Files.touch(new File("/tmp/it.txt"));
+
+// and others:
+Files.toString(file, Charsets.UTF_16);
+Files.equal(someFile, anotherFile);
+            </code></pre>
+
+         </div>
+         </section>
+
+         <section>
+            <h2>Closeables</h2>
+
+            Yet another way to close streams:
+
+            <pre><code class="java">public void useStreamNicely() throws IOException {
+  SomeStream stream = new SomeStream("foo");
+  boolean threw = true;
+  try {
+    // Some code which does something with the Stream. May throw a
+    // Throwable.
+    threw = false; // No throwable thrown.
+  } finally {
+    // Close the stream.
+    // If an exception occurs, only rethrow it if (threw==false).
+    Closeables.close(stream, threw);
+}
+            </code></pre>
+         </section>
+
+         <!--<section>-->
+            <!--<h2>Resources</h2>-->
+            <!--A nice utility class for dealing with... Resources ;-)-->
+
+            <!--<div class="fragment">-->
+               <!--Shortest possible GET request in Java:-->
+               <!--<pre><code class="java">String myIp = Resources.toString(new URL("http://ip.appspot.com"), Charsets.UTF_8);-->
+<!--System.out.println(myIp)</code></pre>-->
+
+               <!--Although it's primarily targeted at Classpath Resources ;-)-->
+
+               <!--<pre><code class="java">-->
+                  <!--URL resourceUrl = Resources.getResource("config.properties");-->
+                  <!---->
+               <!--</code></pre>-->
+            <!--</div>-->
+         <!--</section>-->
       </section>
 
       <section>
