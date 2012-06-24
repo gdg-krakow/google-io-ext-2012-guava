@@ -157,6 +157,128 @@ gdgMembers.add(GDGMember.from(member))
          </section>
       </section>
 
+
+
+      <section>
+         <section>
+            <h2>Functional concepts brought to Java</h2>
+            Many things in Guava are inspired by <strong>functional</strong> concepts from <em>other programming lanugages</em>,
+            just like the previous "map operation" (<b>.transform()</b>)!
+         </section>
+
+         <section>
+            <h2>Core concepts</h2>
+            Some of the key functional concepts Guava uses are:
+
+            <ul>
+               <li class="fragment">Function&lt;A,B&gt; == <span class="code">A =&gt; B</span></li>
+               <li class="fragment">Predicate&lt;T&gt; == <span class="code">T =&gt; Boolean</span></li>
+               <li class="fragment">Optional&lt;T&gt; == "<span class="code">Present</span>" or "<span class="code">Absent</span>"</li>
+            </ul>
+
+            <br>
+            <br>
+            <div class="fragment"><span class="code">Optional</span> may seem similiar to a "<span class="code">Maybe Monad</span>" :-)</div>
+
+         </section>
+
+         <section>
+            <h2>Function &lt;A,B&gt;</h2>
+            Java7 doesn't have lambda expressions, but Guava helps us out (a bit) with <b>Function</b>.
+
+            Composing functions:
+
+            <pre><code class="java">
+               Function &lt;Integer, Integer&gt; doubler = new Function &lt;Integer, Integer&gt;() {
+                           @Override
+                           public Integer apply(@Nullable Integer input) {
+                               return input * 2;
+                           }
+                       };
+
+                       Function&lt;Integer, Integer&gt; halfer = new Function&lt;Integer, Integer&gt;() {
+                           @Override
+                           public Integer apply(@Nullable Integer input) {
+                               return input / 2;
+                           }
+                       };
+
+                       Function&lt;Integer, Integer&gt; identity = Functions.compose(doubler, halfer);
+
+                       Integer two = identity.apply(2);
+                       assertThat(two).isEqualTo(2);
+            </code></pre>
+
+            <span class="code fragment">doubler(halfer(x))</span>
+         </section>
+
+         <section>
+            <h2>Optional vs. <span class="code">null</span></h2>
+
+            <blockquote class="fragment" cite="http://code.google.com/p/guava-libraries/wiki/UsingAndAvoidingNullExplained">
+               Null Sucks.
+               -- Doug Lea
+            </blockquote>
+
+            <br>
+            <br>
+            <div class="fragment">
+               <span class="code">null </span> is "<em>hidden</em>",<br>
+               <span class="code">Optional</span> is <b>explicit</b>.
+            </div>
+
+         </section>
+
+         <section>
+            <h2>Optional</h2>
+
+            <div class="">
+               Ugly but <span class="code">null</span>-safe:
+               <pre><code class="java">public String fullName(String firstName, Optional&lt;String&gt; maybeMiddleName, String lastName) {
+  String middleName = "";
+  if(maybeMiddleName.isPresent) { middleName = maybeMiddleName.get(); }
+  return firstName + " " + middleName + " " + lastName;
+}</code></pre>
+            </div>
+
+            <div class="fragment">
+               Nicer:
+               <pre><code class="java">public String fullName(String firstName, Optional&lt;String&gt; maybeMiddleName, String lastName) {
+return firstName + " " + maybeMiddleName.or("") + " " + lastName;
+}
+</code></pre>
+            </div>
+
+            <blockquote class="fragment">
+               Haven't seen a null-pointer in my code since a few months now! -- random Optional user
+            </blockquote>
+
+         </section>
+
+         <section>
+            <h2>Pro Tip: Function.forMap()</h2>
+
+            In Scala for example, a Map behaves just like a Function:
+            <pre><code class="scala" contenteditable>val nicknameOf = Map("Konrad" -> "ktoso")
+nicknameOf("Konrad") == "ktoso"</code></pre>
+
+            <div class="fragment">
+               With Guava's help you can do the same:
+
+                           <pre><code class="java" contenteditable>ImmutableMap &lt;String, String&gt; nicknameMap = ImmutableMap.of("Konrad", "ktoso");
+Function &lt;String, String&gt; nicknameOf = Functions.forMap(nicknameMap);
+
+nicknameOf.apply("Konrad");</code></pre>
+
+
+            If you think about it, a Map is just a function with a <abbr title="Look Up Table">LUT</abbr>.
+            </div>
+
+            <br>
+            <div class="fragment">"Hey, what's this <b>ImmutableMap</b>?!"</div>
+         </section>
+      </section>
+
       <section>
          <section>
             <h2>Immutability</h2>
@@ -187,7 +309,8 @@ gdgMembers.add(GDGMember.from(member))
             Problems here?
 
             <ul>
-               <li></li>
+               <li class="fragment">3 external classes to build a Set?!</li>
+               <li class="fragment">Not here but in general: <strong>Umodifiable != Immutable</strong>!</li>
             </ul>
          </section>
 
@@ -197,6 +320,68 @@ gdgMembers.add(GDGMember.from(member))
             <pre><code class="java" contenteditable>
               public static final Set&lt;Integer&gt; NUMS = ImmutableSet.of(1, 2, 3, 4, 5);
             </code></pre>
+
+            <div>
+               <div>Better now?</div>
+
+                           <ul>
+                              <li class="fragment">Guaranteed immutability</li>
+                              <li class="fragment">FAST</li>
+                              <li class="fragment">SMALL</li>
+                           </ul>
+            </div>
+
+         <span class="fragment">
+            <small>Highly recommended to check out it's sources - lot's of smart optimizations down there!</small>
+         </span>
+         </section>
+
+         <section>
+            <h2>Defensive copying</h2>
+
+            <pre><code class="java"contenteditable>
+               public static final ImmutableSet &lt;Color&gt; GOOGLE_COLORS =
+                 ImmutableSet.&lt;Color&gt;builder()
+                   .addAll(WEBSAFE_COLORS)
+                   .add(new Color(0, 191, 255))
+                   .build();
+            </code></pre>
+         </section>
+
+         <section>
+            <h2>More immutable collections</h2>
+            <small>
+            <ul>
+               <li>DescendingImmutableSortedMultiset.java         </li>
+               <li>ForwardingImmutableList.java                   </li>
+               <li>ForwardingImmutableMap.java                    </li>
+               <li>ForwardingImmutableSet.java                    </li>
+               <li>ImmutableAsList.java                           </li>
+               <li>ImmutableBiMap.java                            </li>
+               <li>ImmutableClassToInstanceMap.java               </li>
+               <li>ImmutableCollection.java                       </li>
+               <li>ImmutableEntry.java                            </li>
+               <li>ImmutableEnumSet.java                          </li>
+               <li>ImmutableList.java                             </li>
+               <li>ImmutableListMultimap.java                     </li>
+               <li>ImmutableMap.java                              </li>
+               <li>ImmutableMultimap.java                         </li>
+               <li>ImmutableMultiset.java                         </li>
+               <li>ImmutableSet.java                              </li>
+               <li>ImmutableSetMultimap.java                      </li>
+               <li>ImmutableSortedAsList.java                     </li>
+               <li>ImmutableSortedMap.java                        </li>
+               <li>ImmutableSortedMapFauxverideShim.java          </li>
+               <li>ImmutableSortedMultiset.java                   </li>
+               <li>ImmutableSortedMultisetFauxverideShim.java     </li>
+               <li>ImmutableSortedSet.java                        </li>
+               <li>ImmutableSortedSetFauxverideShim.java          </li>
+               <li>ImmutableTable.java                            </li>
+               <li>SingletonImmutableTable.java                   </li>
+               <li>TransformedImmutableSet.java                   </li>
+               <li>... and a lot more ;-)</li>
+            </ul>
+            </small>
          </section>
       </section>
 
