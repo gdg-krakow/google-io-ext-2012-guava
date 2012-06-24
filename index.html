@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+   <meta charset="utf-8">
+
+   <title>Mmmm... Google Guava</title>
+
+   <meta name="description"
+         content="An easy to use CSS 3D slideshow tool for quickly creating good looking HTML presentations.">
+   <meta name="author" content="Hakim El Hattab">
+
+   <meta name="apple-mobile-web-app-capable" content="yes"/>
+   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+
+   <link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet'
+         type='text/css'>
+
+   <link rel="stylesheet" href="css/reset.css">
+   <link rel="stylesheet" href="css/main.css">
+   <link rel="stylesheet" href="css/custom.css">
+   <link rel="stylesheet" href="css/print.css" type="text/css" media="print">
+
+   <link rel="stylesheet" href="lib/zenburn.css">
+</head>
+
+<body>
+
+<div class="reveal">
+<div class="state-background"></div>
+
+<div class="slides">
+<section>
+   <h1>
+      Mmmm... <br/> Google Guava
+      <img src="assets/images/guava.png" alt="guava"/>
+   </h1>
+   <script>
+      // Delicously hacky. Look away.
+      if (navigator.userAgent.match(/(iPhone|iPad|iPod|Android)/i)) document.write('<p style="color: rgba(0,0,0,0.3); text-shadow: none;">(' + 'Tap to navigate' + ')</p>');
+   </script>
+</section>
+
+<section>
+   <h2>About me</h2>
+
+   <p>
+      <img src="./assets/images/about_me.png" alt="about me" style="background: white;"/>
+   </p>
+</section>
+
+<section>
+   <h2>Guava is...</h2>
+
+   <ul>
+      <li class="fragment">a set of utility classes and methods</li>
+      <li class="fragment">basically... a <em>painkiller for Java</em></li>
+   </ul>
+</section>
+
+<section>
+   <h2>GTUG -&gt; GDG</h2>
+
+   Each <br>
+
+   <img src="assets/images/gtug_krakow.png" alt="kraków gtug"> Member
+   <br>
+   <br>
+
+   is now a:
+
+   <br>
+
+   <img src="assets/images/gdg_krakow_lq.png" alt="GDG Kraków"> Member
+</section>
+
+<!-- Example of nested vertical slides -->
+<section>
+   <section>
+      <h2>Vertical Slides</h2>
+
+      <p>
+         Slides can be nested inside of other slides,<br/>
+         try pressing <a href="#/2/1">down</a>.
+      </p>
+      <a href="#/2/1" class="image">
+         <img width="178" height="238" src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png">
+      </a>
+   </section>
+   <section>
+      <h2>Basement Level 1</h2>
+
+      <p>Press down or up to navigate.</p>
+   </section>
+   <section>
+      <h2>Basement Level 2</h2>
+
+      <p>Cornify</p>
+      <a class="test" href="http://cornify.com">
+         <img width="280" height="326" src="https://s3.amazonaws.com/hakim-static/reveal-js/cornify.gif">
+      </a>
+   </section>
+   <section>
+      <h2>Basement Level 3</h2>
+
+      <p>That's it, time to go back up.</p>
+      <a href="#/2" class="image">
+         <img width="178" height="238" src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png"
+              style="-webkit-transform: rotate(180deg);">
+      </a>
+   </section>
+</section>
+
+<section>
+   <section data-state="alert">
+      <h2>Global State</h2>
+
+      <p>
+         Set <code>data-state="something"</code> on a slide and <code>"something"</code>
+         will be added as a class to the document element when the slide is open. This let's you
+         apply broader style changes, like switching the background.
+      </p>
+      <a href="#/7/1" class="image">
+         <img width="178" height="238" src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png">
+      </a>
+   </section>
+   <section data-state="blackout">
+      <h2>"blackout"</h2>
+      <a href="#/7/2" class="image">
+         <img width="178" height="238" src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png">
+      </a>
+   </section>
+   <section data-state="soothe">
+      <h2>"soothe"</h2>
+      <a href="#/7/0" class="image">
+         <img width="178" height="238" src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png"
+              style="-webkit-transform: rotate(180deg);">
+      </a>
+   </section>
+</section>
+
+<section>
+   <h2>Pretty Code</h2>
+        <pre><code contenteditable>
+           var supports3DTransforms = document.body.style['webkitPerspective'] !== undefined ||
+           document.body.style['MozPerspective'] !== undefined ||
+           document.body.style['perspective'] !== undefined;
+
+           function linkify( selector ) {
+           if( supports3DTransforms ) {
+
+           var nodes = document.querySelectorAll( selector );
+
+           for( var i = 0, len = nodes.length; i < len; i++ ) {
+           var node = nodes[i];
+
+           if( !node.className || !node.className.match( /roll/g ) ) {
+           node.className += ' roll';
+           node.innerHTML = '<span data-title="'+ node.text +'">' + node.innerHTML + '</span>';
+           }
+           };
+           }
+           }
+
+           linkify( 'a' );
+        </code></pre>
+   <p>Courtesy of <a href="http://softwaremaniacs.org/soft/highlight/en/description/">highlight.js</a>.</p>
+</section>
+
+<section>
+   <h2>I want moar!</h2>
+   Presentations:
+   <ul>
+      <li>
+         <a href="http://tomaszdziurko.pl/tag/guava/">Tomek Dziurko about Guava</a>
+      </li>
+   </ul>
+
+   Videos:
+   <ul>
+      <li>
+         <a href="http://www.youtube.com/watch?v=0XUBugyOhh8">
+            TravelChannel about Guavas from Hawaii
+         </a>
+      </li>
+   </ul>
+</section>
+
+<section>
+   <h1>ありがとう！</h1>
+   <h2>Dzięki!</h2>
+
+   <div class="inverted right">
+      slides are googlable <br/>
+      or @ <a href="http://www.blog.project13.pl">blog.project13.pl</a>
+   </div>
+</section>
+</div>
+
+
+
+<!-- EOP -->
+
+
+
+
+<!-- The navigational controls UI -->
+<aside class="controls">
+   <a class="left" href="#">&#x25C4;</a>
+   <a class="right" href="#">&#x25BA;</a>
+   <a class="up" href="#">&#x25B2;</a>
+   <a class="down" href="#">&#x25BC;</a>
+</aside>
+
+<!-- Displays presentation progress, max value changes via JS to reflect # of slides -->
+<div class="progress"><span></span></div>
+
+</div>
+
+<!-- Optional libraries for code syntax highlighting and classList support in IE9 -->
+<script src="lib/highlight.js"></script>
+<script src="lib/classList.js"></script>
+
+<script src="js/reveal.js"></script>
+
+<script>
+   // Parse the query string into a key/value object
+   var query = {};
+   location.search.replace(/[A-Z0-9]+?=(\w*)/gi, function (a)
+   {
+      query[ a.split('=').shift() ] = a.split('=').pop();
+   });
+
+   // Fires when a slide with data-state=customevent is activated
+   Reveal.addEventListener('customevent', function ()
+   {
+      alert('"customevent" has fired');
+   });
+
+   // Fires each time a new slide is activated
+   Reveal.addEventListener('slidechanged', function (event)
+   {
+      // event.previousSlide, event.currentSlide, event.indexh, event.indexv
+   });
+
+   Reveal.initialize({
+      // Display controls in the bottom right corner
+      controls:true,
+
+      // Display a presentation progress bar
+      progress:true,
+
+      // If true; each slide will be pushed to the browser history
+      history:true,
+
+      // Loops the presentation, defaults to false
+      loop:false,
+
+      // Flags if mouse wheel navigation should be enabled
+      mouseWheel:true,
+
+      // Apply a 3D roll to links on hover
+      rollingLinks:true,
+
+      // UI style
+      theme:query.theme || 'default', // default/neon
+
+      // Transition style
+      transition:query.transition || 'default' // default/cube/page/concave/linear(2d)
+   });
+
+   hljs.initHighlightingOnLoad();
+</script>
+
+</body>
+</html>
