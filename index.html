@@ -142,6 +142,18 @@ List&lt;GDGMember&gt; gdgMembers = Lists.transform(gtugMembers, GDGMember.fromGT
          </section>
 
          <section>
+            <h2>Transform is a <b>view</b></h2>
+
+            <pre><code class="java">List&lt;Integer&gt; integers = newArrayList(1, 2, 3);
+List&lt;String&gt; strings = Lists.transform(integers, Functions.toStringFunction());
+
+integers.add(4);
+integers.add(5);
+
+assertThat(strings.size()).isEqualTo(5);</code></pre>
+         </section>
+
+         <section>
             <h2 style="font-size: 1.5em">"This would be 1 line in _____"</h2>
 
             Scala for example:
@@ -446,16 +458,85 @@ nicknameOf.apply("Konrad");</code></pre>
          <section>
             <h2>More Collection utils</h2>
 
-            A pair of:
+            <div>            A pair of:</div>
             <ul>
                <li>Joiner</li>
                <li>Splitter</li>
             </ul>
+
          </section>
 
          <section>
             <h2>Joiner</h2>
 
+            Solves the issue of nicely printing a list of something.
+
+            <div class="fragment">
+               Sounds easy? Dig this:
+
+         <pre><code class="java">List &lt;String&gt; l = newArrayList("a", "b", "c");
+
+String separator = ", ";
+StringBuilder sb = new StringBuilder();
+String sep = "";
+for (Object object : l) {
+   sb.append(sep).append(object.toString());
+   sep = separator;
+}
+assertThat(sb.toString()).isEqualTo("a,b,c");</code></pre>
+            </div>
+
+            <div class="fragment">
+               Versus this:
+
+               <pre><code class="java">String pretty = Joiner.on(", ").join(list);
+assertThat(pretty).isEqualTo("a,b,c");</code></pre>
+            </div>
+         </section>
+
+         <section>
+            <h2>MapJoiner</h2>
+            This time without the "without libraries" example, guess why ;-)
+
+            <pre><code class="java">Map names = ImmutableMap.of("Konrad", "ktoso", "Sebastian", "fridek");
+
+String s = Joiner.on(";").withKeyValueSeparator(":").join(names);
+
+assertThat(s).isEqualTo("Konrad:ktoso,Sebastian:fridek");</code></pre>
+         </section>
+
+         <section>
+            <h2>Splitter</h2>
+            The inverse of <span class="code">Joiner</span>.
+
+            <pre><code class="java">
+Map&lt;String, String&gt; vals = Splitter.on(';')
+                                   .omitEmptyStrings()
+                                   .trimResults()
+                                   .withKeyValueSeparator(":")
+                                   .split(s);
+
+String nickname = vals.get("Konrad");
+assertThat(nickname).isEqualTo("ktoso");</code></pre>
+            <div class="fragment">Yes, <span class="code">Joiner</span> has those <i>nice-to-have </i> methods too.</div>
+         </section>
+
+         <section>
+            <h2>BiMap</h2>
+            While we're on a roll here... Let's check out a new Collection class implemented in Guava!
+
+            <pre><code class="java">Map&lt;String, String&gt; vals = Splitter.on(';')
+                                   .omitEmptyStrings()
+                                   .trimResults()
+                                   .withKeyValueSeparator(":")
+                                   .split(s);
+
+BiMap&lt;String, String&gt; biMap = HashBiMap.create(vals);
+
+String ktoso = biMap.get("Konrad");
+
+String konrad = biMap.inverse().get("ktoso");
+            </code></pre>
          </section>
       </section>
 
@@ -551,6 +632,194 @@ Files.equal(someFile, anotherFile);
                <!--</code></pre>-->
             <!--</div>-->
          <!--</section>-->
+      </section>
+
+      <section>
+         <h2>SettableFuture</h2>
+         A very easy to complete Future implementation:
+
+         <pre><code class="java">final SettableFuture&lt;String&gt; future = SettableFuture.create();
+
+future.addListener(new Runnable() {
+  @Override
+  public void run() {
+    try {
+      String value = future.get();
+      System.out.println("value = " + value);
+
+    } catch (Exception e) {
+      Throwables.propagate(e);
+    }
+ }
+}, Executors.newSingleThreadExecutor());</code></pre>
+         <pre><code class="java">new Thread(){
+  @Override
+  public void run() {
+    try {
+      Thread.sleep(1000);
+      future.set("Hello!");
+    } catch (InterruptedException ignored) {  }
+  }
+}.start();</code></pre>
+      </section>
+
+      <section>
+         <section>
+            <h2>Stuff we didn't cover <br>in our 30  minutes</h2>
+
+            <ul>
+               <li class="fragment">@VisibleForTesting</li>
+               <li class="fragment">TypeToken</li>
+               <li class="fragment">Multiset &amp; Multimap</li>
+               <li class="fragment">ForwardingList</li>
+               <li class="fragment">Hashing</li>
+               <li class="fragment">UnsignedLong</li>
+               <li class="fragment">Objects</li>
+               <li class="fragment">Preconditions</li>
+               <li class="fragment">Table</li>
+               <li class="fragment">MapMaker</li>
+               <li class="fragment">Stopwatch</li>
+               <li class="fragment">Futures</li>
+               <li class="fragment">... and More!</li>
+            </ul>
+         </section>
+
+         <section>
+            <h2>@VisibleForTesting</h2>
+            A small, <b>nothing-doing</b> annotation.
+
+            <pre><code class="java">@VisibleForTesting
+List&lt;Stuff&gt; findStuff(String name) {
+  //...
+}</code></pre>
+
+            <div class="fragment">It explains why this method is <em>package private</em>. May be "nothing", but is still nice.</div>
+         </section>
+
+         <section>
+            <h2>TypeToken</h2>
+            Awesomely <strong>retain generics information in runtime</strong>:
+
+            <pre><code contenteditable class="java"> new TypeToken&lt;List&lt;String&gt;&gt;() {}</code></pre>
+
+            Without a TypeToken, information about &lt;String&gt; would be lost.
+
+            <div class="fragment">TypeToken leverages the fact </div>
+         </section>
+
+         <section>
+            <h2>Hashing</h2>
+            Multiple populat hash functions are implemented in it (sha, md5, others...):
+
+            <pre><code contenteditable class="java">
+Hashing.md5().newHasher()
+       .putString(name)
+       .putInt(age)
+       .hash().asLong();</code></pre>
+         </section>
+
+         <section>
+            <h2>Objects::equals</h2>
+            <pre><code class="java">@Override
+public boolean equals(Object o) {
+  Person that = (Person) o;
+
+  if (age != null ? !age.equals(person.age) : person.age != null) return false;
+  if (name != null ? !name.equals(person.name) : person.name != null) return false;
+
+  return true;
+}</code></pre>
+
+            Vs.
+
+            <pre class="fragment"><code class="java">@Override
+public boolean equals(Object o) {
+  Person that = (Person) o;
+
+  return Objects.equal(that.name, this.name) && Objects.equal(that.age, this.age);
+}</code></pre>
+
+            <div class="fragment">Pro Tip: A similar implementation is present in <b>JDK7</b>! :-)</div>
+
+         </section>
+
+         <section>
+            <h2>Objects::hashCode</h2>
+
+            <pre><code class="java">@Override
+public int hashCode() {
+  int result = name != null ? name.hashCode() : 0;
+  result = 31 * result + (surname != null ? surname.hashCode() : 0);
+  result = 31 * result + (age != null ? age.hashCode() : 0);
+  return result;
+}</code></pre>
+
+            Vs.
+
+            <pre class="fragment"><code class="java">@Override
+public int hashCode() {
+  return  Objects.hashCode(name, surname, age);
+}</code></pre>
+
+            <div class="fragment">
+               Pro Tip: <span class="code">java.util.Objects::hash(Object... objects)</span> has also been implemented in
+               <b>JDK7</b>!
+            </div>
+         </section>
+
+         <section>
+            <h2>Itermission: Why "::"?</h2>
+
+            <div>As <b>JDK 8</b> is comming nearer... let's get confortable with the <span class="code">Class::method</span>
+                        notation.</div>
+
+            <div class="fragment">
+               As of JDK 8, this syntax will be used to obtain <b>Method references</b>:
+
+               <pre><code class="java">class Person {
+  public String get() { return "" }
+}
+
+String::toString;
+// or
+Person p = new Person();
+p::get;
+               </code></pre>
+
+               <a href="http://cr.openjdk.java.net/~briangoetz/lambda/lambda-state-4.html" class="right">...java.net/~briangoetz/lambda/lambda-state-4.html</a>
+            </div>
+
+
+         </section>
+
+
+         <section>
+            <h2>Stopwatch</h2>
+            A simple tool for simple time measurement:
+
+            <pre><code class="java">Stopwatch watch = new Stopwatch().start();
+Thread.sleep(100);
+
+System.out.println("Code took: " + watch.stop());</code></pre>
+         </section>
+
+         <section>
+            <h2>MapMaker</h2>
+
+            <pre><code class="java">
+ConcurrentMap&lt;Key, Graph&gt; graphs = new MapMaker()
+  .concurrencyLevel(4)
+  .weakKeys()
+  .maximumSize(10000)
+  .expireAfterWrite(10, TimeUnit.MINUTES)
+  .makeComputingMap(
+  new Function&lt;Key, Graph&gt;() {
+    public Graph apply(Key key) {
+      return createExpensiveGraph(key);
+    }
+  });</code></pre>
+         </section>
+
       </section>
 
       <section>
