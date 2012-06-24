@@ -57,7 +57,7 @@
             <li class="fragment">some quite neat <strong>collection</strong> implementations (AKA. google-collections)
             </li>
             <li class="fragment">comparable to <em>Apache Commons</em></li>
-            <li class="fragment">basically... a <em><strong>painkiller</strong></em> and <em><strong>extension</strong></em> for Java (stdlib)</li>
+            <li class="fragment">basically... a <em><strong>painkiller</strong></em> and <em><strong>natural extension</strong></em> for Java (stdlib)</li>
          </ul>
       </section>
 
@@ -321,6 +321,11 @@ Optional&lt;User&gt; awesomeOrAbsent = Iterables.tryFind(users, onlyAwesome);</c
                <li class="code fragment">&lt;T&gt; Iterable&lt;T&gt; cycle(&lt;T&gt;... elements)</li>
                <li class="fragment">and a lot more!</li>
             </ul>
+
+         </section>
+
+         <section>
+            <h2>FluentIterable</h2>
 
          </section>
 
@@ -704,7 +709,9 @@ List&lt;Stuff&gt; findStuff(String name) {
 
             Without a TypeToken, information about &lt;String&gt; would be lost.
 
-            <div class="fragment">TypeToken leverages the fact </div>
+            <div class="fragment">
+               TypeToken leverages the fact that the generics information here MUST be kept in order
+               to create a class instance of such type.</div>
          </section>
 
          <section>
