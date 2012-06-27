@@ -176,6 +176,20 @@ val gdgMembers = members map { GDGMember(_.name) }
                And anyway... <b>LISP</b> had those for years ;-)
             </div>
          </section>
+
+         <section>
+           <h2>FluentIterable</h2>
+A nice new way (since Guava 12) to combine all these operations using a fluent interfaceL
+
+<pre><code class="java" contenteditable>
+  FluentIterable
+    .from(database.getClientList())
+    .filter(activeInLastMonth())
+    .transform(Functions.toStringFunction())
+    .limit(10)
+    .toImmutableList();
+</code></pre>
+         </section>
       </section>
 
 
@@ -810,6 +824,20 @@ Thread.sleep(100);
 System.out.println("Code took: " + watch.stop());</code></pre>
          </section>
 
+         <section>
+         <h2>CaseFormat</h2>
+         Utility to convert between snake_case or camelCase or CamelCase:
+
+         <pre><code contenteditable class="java">String upperCamel = CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_CAMEL, "myName");
+assertThat(upperCamel).isEqualTo("MyName");
+
+String lowerHypen = CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_HYPHEN, "myName")
+assertThat(lowerHypen).isEqualTo("my-name");</code></pre>
+
+
+<table class="fragment" style="margin: 0 auto"><tbody><tr><td style="border: 1px solid #ccc; padding: 5px;"> Format </td><td style="border: 1px solid #ccc; padding: 5px;"> Example </td></tr> <tr><td style="border: 1px solid #ccc; padding: 5px;"> <a href="http://docs.guava-libraries.googlecode.com/git-history/release/javadoc/com/google/common/base/CaseFormat.html#LOWER_CAMEL" rel="nofollow"><tt>LOWER_CAMEL</tt></a> </td><td style="border: 1px solid #ccc; padding: 5px;"> <tt>lowerCamel</tt> </td></tr> <tr><td style="border: 1px solid #ccc; padding: 5px;"> <a href="http://docs.guava-libraries.googlecode.com/git-history/release/javadoc/com/google/common/base/CaseFormat.html#LOWER_HYPHEN" rel="nofollow"><tt>LOWER_HYPHEN</tt></a> </td><td style="border: 1px solid #ccc; padding: 5px;"> <tt>lower-hyphen</tt> </td></tr> <tr><td style="border: 1px solid #ccc; padding: 5px;"> <a href="http://docs.guava-libraries.googlecode.com/git-history/release/javadoc/com/google/common/base/CaseFormat.html#LOWER_UNDERSCORE" rel="nofollow"><tt>LOWER_UNDERSCORE</tt></a> </td><td style="border: 1px solid #ccc; padding: 5px;"> <tt>lower_underscore</tt> </td></tr> <tr><td style="border: 1px solid #ccc; padding: 5px;"> <a href="http://docs.guava-libraries.googlecode.com/git-history/release/javadoc/com/google/common/base/CaseFormat.html#UPPER_CAMEL" rel="nofollow"><tt>UPPER_CAMEL</tt></a> </td><td style="border: 1px solid #ccc; padding: 5px;"> <tt>UpperCamel</tt> </td></tr> <tr><td style="border: 1px solid #ccc; padding: 5px;"> <a href="http://docs.guava-libraries.googlecode.com/git-history/release/javadoc/com/google/common/base/CaseFormat.html#UPPER_UNDERSCORE" rel="nofollow"><tt>UPPER_UNDERSCORE</tt></a> </td><td style="border: 1px solid #ccc; padding: 5px;"> <tt>UPPER_UNDERSCORE</tt> </td></tr> </tbody></table>
+
+         </section>
          <section>
             <h2>MapMaker</h2>
 
