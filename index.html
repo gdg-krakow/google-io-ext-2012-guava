@@ -435,33 +435,33 @@ nicknameOf.apply("Konrad");</code></pre>
             <h2>More immutable collections</h2>
             <small>
             <ul>
-               <li>DescendingImmutableSortedMultiset.java         </li>
-               <li>ForwardingImmutableList.java                   </li>
-               <li>ForwardingImmutableMap.java                    </li>
-               <li>ForwardingImmutableSet.java                    </li>
-               <li>ImmutableAsList.java                           </li>
-               <li>ImmutableBiMap.java                            </li>
-               <li>ImmutableClassToInstanceMap.java               </li>
-               <li>ImmutableCollection.java                       </li>
-               <li>ImmutableEntry.java                            </li>
-               <li>ImmutableEnumSet.java                          </li>
-               <li>ImmutableList.java                             </li>
-               <li>ImmutableListMultimap.java                     </li>
-               <li>ImmutableMap.java                              </li>
-               <li>ImmutableMultimap.java                         </li>
-               <li>ImmutableMultiset.java                         </li>
-               <li>ImmutableSet.java                              </li>
-               <li>ImmutableSetMultimap.java                      </li>
-               <li>ImmutableSortedAsList.java                     </li>
-               <li>ImmutableSortedMap.java                        </li>
-               <li>ImmutableSortedMapFauxverideShim.java          </li>
-               <li>ImmutableSortedMultiset.java                   </li>
-               <li>ImmutableSortedMultisetFauxverideShim.java     </li>
-               <li>ImmutableSortedSet.java                        </li>
-               <li>ImmutableSortedSetFauxverideShim.java          </li>
-               <li>ImmutableTable.java                            </li>
-               <li>SingletonImmutableTable.java                   </li>
-               <li>TransformedImmutableSet.java                   </li>
+               <li>DescendingImmutableSortedMultiset         </li>
+               <li>ForwardingImmutableList                   </li>
+               <li>ForwardingImmutableMap                    </li>
+               <li>ForwardingImmutableSet                    </li>
+               <li>ImmutableAsList                           </li>
+               <li>ImmutableBiMap                            </li>
+               <li>ImmutableClassToInstanceMap               </li>
+               <li>ImmutableCollection                       </li>
+               <li>ImmutableEntry                            </li>
+               <li>ImmutableEnumSet                          </li>
+               <li>ImmutableList                             </li>
+               <li>ImmutableListMultimap                     </li>
+               <li>ImmutableMap                              </li>
+               <li>ImmutableMultimap                         </li>
+               <li>ImmutableMultiset                         </li>
+               <li>ImmutableSet                              </li>
+               <li>ImmutableSetMultimap                      </li>
+               <li>ImmutableSortedAsList                     </li>
+               <li>ImmutableSortedMap                        </li>
+               <li>ImmutableSortedMapFauxverideShim          </li>
+               <li>ImmutableSortedMultiset                   </li>
+               <li>ImmutableSortedMultisetFauxverideShim     </li>
+               <li>ImmutableSortedSet                        </li>
+               <li>ImmutableSortedSetFauxverideShim          </li>
+               <li>ImmutableTable                            </li>
+               <li>SingletonImmutableTable                   </li>
+               <li>TransformedImmutableSet                   </li>
                <li>... and a lot more ;-)</li>
             </ul>
             </small>
@@ -804,7 +804,48 @@ p::get;
 
                <a href="http://cr.openjdk.java.net/~briangoetz/lambda/lambda-state-4.html" class="right">...java.net/~briangoetz/lambda/lambda-state-4.html</a>
             </div>
+            </section>
 
+            <section>
+               <h2>Intermission: Why "::"?</h2>
+               Why should you care?
+               <br>
+               <br>
+
+               <pre><code class="java" contenteditable="">// bellow code is valid (JDK 8) Java
+Collections.sort(people, comparing(p -> p.getLastName()));
+
+people.sort(comparing(Person::getLastName));
+               </code></pre>
+
+
+
+               The Guava equivalent (a bit more powerfull):
+
+               <pre class="fragment"><code class="java" contenteditable>
+List &lt;Foo&gt; foos = newArrayList(new Foo("z"), new Foo("a"));
+
+Function &lt;Foo, Comparable&gt; getName = new Function &lt;Foo, Comparable&gt;() {
+            public Comparable apply(@Nullable Foo input) {
+                assert input != null;
+                return input.name;
+            }
+        };
+
+Collections.sort(foos, Ordering.natural().onResultOf(getName));
+               </code></pre>
+
+               <div class="fragment">
+                  Mini Scala trolling:
+                  <pre ><code class="scala">
+                     foos.sortBy(_.getName)
+                  </code></pre>
+               </div>
+
+
+
+
+            </section>
 
          </section>
 
