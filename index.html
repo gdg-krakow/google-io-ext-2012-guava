@@ -855,6 +855,35 @@ ConcurrentMap&lt;Key, Graph&gt; graphs = new MapMaker()
   });</code></pre>
          </section>
 
+
+
+         <section>
+         <h2>RateLimiter</h2>
+
+<pre><code class="java">
+final RateLimiter rateLimiter = RateLimiter.create(2.0); // rate is "2 permits per second"
+void submitTasks(List<Runnable> tasks, Executor executor) {
+  for (Runnable task : tasks) {
+    rateLimiter.acquire(); // may wait
+    executor.execute(task);
+  }
+}
+</code></pre>
+         </section>
+
+         <section>
+         <h2>TimeLimiter</h2>
+         <pre><code contenteditable class="java">
+TimeLimiter limiter = ...;
+TargetType proxy = limiter.newProxy(target, TargetType.class, 50, TimeUnit.MILLISECONDS);
+try {
+  return proxy.someMethod();
+} catch (UncheckedTimeoutException e) {
+  return DEFAULT_VALUE;
+}
+</code></pre>
+         </section>
+
       </section>
 
       <section>
