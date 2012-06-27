@@ -649,6 +649,89 @@ Files.equal(someFile, anotherFile);
       </section>
 
       <section>
+      <section>
+         <h2>Future</h2>
+                  JDK future is quite ok, but...
+
+                  <pre class="fragment"><code class="java" contenteditable="">Future &lt;String&gt; futureString = executor.submit(new Callable &lt;String&gt;() {
+  public String call() { return searcher.search(target); }
+});
+
+futureString.get(); // only way to obtain the future!</code></pre>
+
+               <div class="fragment">There is <b>FutureTask</b> if you need more...
+                  <br>
+                  Idea: why not have add a <b>listener</b>?</div>
+
+               <pre class="fragment"><code class="java" contenteditable="">final ListenableFuture &lt;String&gt; future = service.query(name);
+future.addListener(new Runnable() {
+  public void run() {
+    logger.info("Yay! Got: " + future.get());
+  }
+}, executor);</code></pre>
+      </section>
+
+         <section>
+            <h2>Futures</h2>
+            Futures can also help out with centralizing exception handling:
+            <br>
+            <b><a
+               href="http://docs.guava-libraries.googlecode.com/git/javadoc/com/google/common/util/concurrent/Futures.html#addCallback(com.google.common.util.concurrent.ListenableFuture, com.google.common.util.concurrent.FutureCallback)">Futures</a></b> can help us out there:
+
+            <pre class="fragment"><code class="java">
+ListenableFuture &lt;QueryResult&gt; future = ...;
+ addCallback(future,
+     new FutureCallback &lt;QueryResult&gt; {
+       public void onSuccess(QueryResult result) {
+         storeInCache(result);
+       }
+       public void onFailure(Throwable t) {
+         reportError(t);
+       }
+     });
+            </code></pre>
+         </section>
+
+         <section>
+            <h2>Treating <b>Future</b> as a Monad</h2>
+            Hard words, simple code:
+
+            <pre class="fragment"><code class="java">
+ListenableFuture &lt;QueryResult&gt; future = ...;
+
+Function &lt;QueryResult, URI&gt; mapToURI = ...;
+
+ListenableFuture&lt;URI&gt; futureUri = Futures.transform(future, mapToURI);
+            </code></pre>
+
+         <div class="fragment">
+            <small>
+               See how this is "the same" operation as on a collection? It's map / flatMap all over again!
+            </small>
+         </div>
+         </section>
+
+         <section>
+            <h2>More Futures tools</h2>
+            Since we mentioned collections...
+            <br>
+            <em>Transform a <b>List of Futures</b> into a <b>Future List</b></em>
+
+            <pre class="fragment"><code class="java" contenteditable="">List &lt;Future &lt;String&gt;&gt; futures = ImmutableList.of(future1, future2);
+
+Future &lt;List &lt;String&gt;&gt; oneFuture = Futures.allAsList(futures);
+//                        ^ succeeds if ALL succeed
+            </code></pre>
+
+            <div class="fragment">
+               Or just successful futures:
+
+               <pre><code class="java">Future &lt;List &lt;String&gt;&gt; oneFuture = Futures.successfulAsList(futures);</code></pre>
+            </div>
+
+         </section>
+
+      <section>
          <h2>SettableFuture</h2>
          A very easy to complete Future implementation:
 
@@ -666,7 +749,8 @@ future.addListener(new Runnable() {
     }
  }
 }, Executors.newSingleThreadExecutor());</code></pre>
-         <pre><code class="java">new Thread(){
+
+         <pre class="fragment"><code class="java">new Thread(){
   @Override
   public void run() {
     try {
@@ -675,6 +759,7 @@ future.addListener(new Runnable() {
     } catch (InterruptedException ignored) {  }
   }
 }.start();</code></pre>
+      </section>
       </section>
 
       <section>
@@ -838,14 +923,9 @@ Collections.sort(foos, Ordering.natural().onResultOf(getName));
                <div class="fragment">
                   Mini Scala trolling:
                   <pre ><code class="scala">
-                     foos.sortBy(_.getName)
+                     foos.sortBy(_.name)
                   </code></pre>
                </div>
-
-
-
-
-            </section>
 
          </section>
 
