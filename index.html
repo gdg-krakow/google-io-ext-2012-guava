@@ -50,15 +50,25 @@
       </section>
 
       <section>
-         <h2>Guava is...</h2>
+         <section>
+            <h2>Guava is...</h2>
 
-         <ul>
-            <li class="fragment">a set of <strong>utility</strong> classes and methods</li>
-            <li class="fragment">some quite neat <strong>collection</strong> implementations (AKA. google-collections)
-            </li>
-            <li class="fragment">comparable to <em>Apache Commons</em></li>
-            <li class="fragment">basically... a <em><strong>painkiller</strong></em> and <em><strong>natural extension</strong></em> for Java (stdlib)</li>
-         </ul>
+            <ul>
+               <li class="fragment">a <b>fruit</b></li>
+            </ul>
+         </section>
+
+         <section>
+            <h2>Guava is...</h2>
+
+            <ul>
+               <li class="fragment">a set of <strong>utility</strong> classes and methods</li>
+               <li class="fragment">some quite neat <strong>collection</strong> implementations (AKA. google-collections)
+               </li>
+               <li class="fragment">comparable to <em>Apache Commons</em></li>
+               <li class="fragment">basically... a <em><strong>painkiller</strong></em> and <em><strong>natural extension</strong></em> for Java (stdlib)</li>
+            </ul>
+         </section>
       </section>
 
       <section>
@@ -381,13 +391,11 @@ nicknameOf.apply("Konrad");</code></pre>
          </section>
          <section>
             <h2>Vanilla JDK - constant set</h2>
-            <pre><code contenteditable class="java">
-               public static final Set&lt;Integer&gt; NUMS = Collections.unmodifiableSet(
-                 new LinkedHashSet&lt;&gt;(
-                   Arrays.asList(1, 2, 3, 4, 5, 6)
-                 )
-               );
-            </code></pre>
+            <pre><code contenteditable class="java">public static final Set&lt;Integer&gt; NUMS = Collections.unmodifiableSet(
+  new LinkedHashSet&lt;&gt;(
+    Arrays.asList(1, 2, 3, 4, 5, 6)
+  )
+);</code></pre>
 
             Problems here?
 
@@ -400,8 +408,7 @@ nicknameOf.apply("Konrad");</code></pre>
          <section>
             <h2>ImmutableSet</h2>
 
-            <pre><code class="java" contenteditable>
-              public static final Set&lt;Integer&gt; NUMS = ImmutableSet.of(1, 2, 3, 4, 5);
+            <pre><code class="java" contenteditable>public static final Set&lt;Integer&gt; NUMS = ImmutableSet.of(1, 2, 3, 4, 5);
             </code></pre>
 
             <div>
@@ -423,11 +430,11 @@ nicknameOf.apply("Konrad");</code></pre>
             <h2>Defensive copying</h2>
 
             <pre><code class="java"contenteditable>
-               public static final ImmutableSet &lt;Color&gt; GOOGLE_COLORS =
-                 ImmutableSet.&lt;Color&gt;builder()
-                   .addAll(WEBSAFE_COLORS)
-                   .add(new Color(0, 191, 255))
-                   .build();
+public static final ImmutableSet &lt;Color&gt; GOOGLE_COLORS =
+  ImmutableSet.&lt;Color&gt;builder()
+    .addAll(WEBSAFE_COLORS)
+    .add(new Color(0, 191, 255))
+    .build();
             </code></pre>
          </section>
 
@@ -552,6 +559,16 @@ String ktoso = biMap.get("Konrad");
 String konrad = biMap.inverse().get("ktoso");
             </code></pre>
          </section>
+
+         <section>
+            <h2>Notable collections</h2>
+
+            <ul>
+               <li>Multiset &lt;String&gt;</li>
+               <li>MultiMap &lt;Integer, String&gt;</li>
+               <li>Table &lt;String, String, Integer&gt;</li>
+            </ul>
+         </section>
       </section>
 
       <section>
@@ -646,6 +663,18 @@ Files.equal(someFile, anotherFile);
                <!--</code></pre>-->
             <!--</div>-->
          <!--</section>-->
+
+         <section>
+            <h2>Others include...</h2>
+
+            <ul>
+               <li class="fragment">CharStreams</li>
+               <li class="fragment">ByteStreams</li>
+               <li class="fragment">NullOutputStream</li>
+               <li class="fragment">...</li>
+            </ul>
+         </section>
+
       </section>
 
       <section>
@@ -769,16 +798,14 @@ future.addListener(new Runnable() {
             <ul>
                <li class="fragment">@VisibleForTesting</li>
                <li class="fragment">TypeToken</li>
-               <li class="fragment">Multiset &amp; Multimap</li>
                <li class="fragment">ForwardingList</li>
                <li class="fragment">Hashing</li>
                <li class="fragment">UnsignedLong</li>
                <li class="fragment">Objects</li>
                <li class="fragment">Preconditions</li>
-               <li class="fragment">Table</li>
                <li class="fragment">MapMaker</li>
                <li class="fragment">Stopwatch</li>
-               <li class="fragment">Futures</li>
+               <li class="fragment">Limiters</li>
                <li class="fragment">... and More!</li>
             </ul>
          </section>
@@ -806,6 +833,18 @@ List&lt;Stuff&gt; findStuff(String name) {
             <div class="fragment">
                TypeToken leverages the fact that the generics information here MUST be kept in order
                to create a class instance of such type.</div>
+         </section>
+
+         <section>
+            <h2>UnsignedLong</h2>
+
+            <div class="fragment">uint in Java!?</div>
+
+            <div class="fragment">
+               <pre><code class="java" contenteditable>
+
+               </code></pre>
+            </div>
          </section>
 
          <section>
@@ -931,6 +970,56 @@ Collections.sort(foos, Ordering.natural().onResultOf(getName));
 
 
          <section>
+            <h2>MapMaker</h2>
+            <pre><code class="java">
+ConcurrentMap&lt;Key, Graph&gt; graphs = new MapMaker()
+   .concurrencyLevel(4)
+   .makeComputingMap(
+       new Function&lt;Key, Graph&gt;() {
+         public Graph apply(Key key) {
+           return createExpensiveGraph(key);
+         }
+       });
+            </code></pre>
+         </section>
+
+
+         <section>
+            <h2>MapMaker</h2>
+            <pre><code class="java">
+ConcurrentMap&lt;Key, Graph&gt; graphs = new MapMaker()
+   .concurrencyLevel(4)
+   .maximumSize(10000)
+   .expireAfterWrite(10, TimeUnit.MINUTES)
+   .makeComputingMap(
+       new Function&lt;Key, Graph&gt;() {
+         public Graph apply(Key key) {
+           return createExpensiveGraph(key);
+         }
+       });
+            </code></pre>
+         </section>
+
+
+         <section>
+            <h2>MapMaker</h2>
+            <pre><code class="java">
+ConcurrentMap&lt;Key, Graph&gt; graphs = new MapMaker()
+   .concurrencyLevel(4)
+   .weakKeys()
+   .maximumSize(10000)
+   .expireAfterWrite(10, TimeUnit.MINUTES)
+   .makeComputingMap(
+       new Function&lt;Key, Graph&gt;() {
+         public Graph apply(Key key) {
+           return createExpensiveGraph(key);
+         }
+       });
+            </code></pre>
+         </section>
+
+
+         <section>
             <h2>Stopwatch</h2>
             A simple tool for simple time measurement:
 
@@ -954,31 +1043,13 @@ assertThat(lowerHypen).isEqualTo("my-name");</code></pre>
 <table class="fragment" style="margin: 0 auto"><tbody><tr><td style="border: 1px solid #ccc; padding: 5px;"> Format </td><td style="border: 1px solid #ccc; padding: 5px;"> Example </td></tr> <tr><td style="border: 1px solid #ccc; padding: 5px;"> <a href="http://docs.guava-libraries.googlecode.com/git-history/release/javadoc/com/google/common/base/CaseFormat.html#LOWER_CAMEL" rel="nofollow"><tt>LOWER_CAMEL</tt></a> </td><td style="border: 1px solid #ccc; padding: 5px;"> <tt>lowerCamel</tt> </td></tr> <tr><td style="border: 1px solid #ccc; padding: 5px;"> <a href="http://docs.guava-libraries.googlecode.com/git-history/release/javadoc/com/google/common/base/CaseFormat.html#LOWER_HYPHEN" rel="nofollow"><tt>LOWER_HYPHEN</tt></a> </td><td style="border: 1px solid #ccc; padding: 5px;"> <tt>lower-hyphen</tt> </td></tr> <tr><td style="border: 1px solid #ccc; padding: 5px;"> <a href="http://docs.guava-libraries.googlecode.com/git-history/release/javadoc/com/google/common/base/CaseFormat.html#LOWER_UNDERSCORE" rel="nofollow"><tt>LOWER_UNDERSCORE</tt></a> </td><td style="border: 1px solid #ccc; padding: 5px;"> <tt>lower_underscore</tt> </td></tr> <tr><td style="border: 1px solid #ccc; padding: 5px;"> <a href="http://docs.guava-libraries.googlecode.com/git-history/release/javadoc/com/google/common/base/CaseFormat.html#UPPER_CAMEL" rel="nofollow"><tt>UPPER_CAMEL</tt></a> </td><td style="border: 1px solid #ccc; padding: 5px;"> <tt>UpperCamel</tt> </td></tr> <tr><td style="border: 1px solid #ccc; padding: 5px;"> <a href="http://docs.guava-libraries.googlecode.com/git-history/release/javadoc/com/google/common/base/CaseFormat.html#UPPER_UNDERSCORE" rel="nofollow"><tt>UPPER_UNDERSCORE</tt></a> </td><td style="border: 1px solid #ccc; padding: 5px;"> <tt>UPPER_UNDERSCORE</tt> </td></tr> </tbody></table>
 
          </section>
-         <section>
-            <h2>MapMaker</h2>
-
-            <pre><code class="java">
-ConcurrentMap&lt;Key, Graph&gt; graphs = new MapMaker()
-  .concurrencyLevel(4)
-  .weakKeys()
-  .maximumSize(10000)
-  .expireAfterWrite(10, TimeUnit.MINUTES)
-  .makeComputingMap(
-  new Function&lt;Key, Graph&gt;() {
-    public Graph apply(Key key) {
-      return createExpensiveGraph(key);
-    }
-  });</code></pre>
-         </section>
-
-
 
          <section>
          <h2>RateLimiter</h2>
 
 <pre><code class="java">
 final RateLimiter rateLimiter = RateLimiter.create(2.0); // rate is "2 permits per second"
-void submitTasks(List<Runnable> tasks, Executor executor) {
+void submitTasks(List &lt;Runnable&gt; tasks, Executor executor) {
   for (Runnable task : tasks) {
     rateLimiter.acquire(); // may wait
     executor.execute(task);
@@ -1000,6 +1071,59 @@ try {
 </code></pre>
          </section>
 
+      </section>
+
+      <section>
+         <section>
+
+            <h2>How is Guava tested?</h2>
+            Obviously Guava code has to be <b>valid</b>, <br>
+            but it also has to be <b>performant</b>.
+
+            <div class="fragment">
+               Google <b>Caliper</b>
+               <br>
+               <a href="http://code.google.com/p/caliper/">code.google.com/p/caliper</a>
+               <br>
+               Simple / Small microbenchmarking
+            </div>
+
+            <div class="fragment">
+               <img src="http://caliper.googlecode.com/svn/static/screenshot.png" alt="caliper" height="300"/>
+            </div>
+
+         </section>
+
+         <section>
+            <h2>Google Caliper</h2>
+
+            <pre><code class="java" contenteditable="">public static void main(String[] args) {
+   Runner.main(UnsignedLongsBenchmark.class, args);
+}</code></pre>
+
+            <pre class="fragment"><code class="java">public class UnsignedLongsBenchmark extends SimpleBenchmark {
+
+   @Override
+   protected void setUp() {
+    for (int i = 0; i < ARRAY_SIZE; i++) {
+      longs[i] = random();
+      divisors[i] = randomDivisor(longs[i]);
+    }
+   }
+
+   // it's a TIME test
+   public long timeDivide(int reps) {
+    long tmp = 0;
+    for (int i = 0; i < reps; i++) {
+      int j = i & ARRAY_MASK;
+      tmp += UnsignedLongs.divide(longs[j], divisors[j]);
+    }
+    return tmp;
+   }
+
+   // ...
+            </code></pre>
+         </section>
       </section>
 
       <section>
